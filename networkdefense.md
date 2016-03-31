@@ -6,7 +6,7 @@ date: March 26, 2016
 
 # Cybersecurity without context: an unscalable paradigm
 
-The organizations <> partners with are tasked with protecting networks that are huge, evolving, diverse, and whose adversaries who are constantly experimenting with new attack vectors. As a natural consequence, those organizations face a serious Big Data problem, as their network logs arrive in huge volume, velocity, variety, and veracity.
+This document is designed for organizations responsible for protecting networks that are huge, evolving, diverse, and whose adversaries who are constantly experimenting with new attack vectors. As a natural consequence, those organizations face a serious Big Data problem, as their network logs arrive in huge volume, velocity, variety, and veracity.
 
 To handle the scope of their network defense problem, most organizations apply the following cybersecurity paradigm:
 *  First, the ecosystem contains a myriad of automated rules-based tools that flag on individual, granular logs. These alerts most commonly take the form of "single IP or host was recorded conducting malicious activity x, for which an instrument was generated or rule was in place to detect malicious activity x."
