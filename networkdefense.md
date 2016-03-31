@@ -56,7 +56,7 @@ There are two approaches to chunk together raw logs across time.  The first simp
     ##time-binning
     select
     uid,
-    *,
+    \*,
     floor(timestamp / seconds) as timebin
     from rawlogs;
 
@@ -146,8 +146,7 @@ As data sizes grow and new instruments to collect traffic data are implemented, 
 
 The primary lesson about clustering algorithms is that by themselves, cluster labels are not very useful, especially when the number of output clusters is small (small enough for a human to want to feasible try to explain each and every cluster). In contrast, **ordered clustering for visualization** tends to be more useful to human operators. For example, the OPTICS algorithm produces an ordering of data points, stretched out on a line. For each granular input unit of activity, given a "scale" or "resolution" parameter from a human, OPTICS is able to provide context and find points that should be clumped together with that input point.
 
-At different resolution levels, hierarchical clustering algorithms like OPTICS provide the best ability to capture the necessary nuance present in big quantities of diverse data. Unfortunately, almost all
- hierarchical clustering algorithms are O(N^2) and are impossible to scale. To address these concerns, I developed a prototype of an ordered, balanced, clustering algorithm called "CDF annealing."
+At different resolution levels, hierarchical clustering algorithms like OPTICS provide the best ability to capture the necessary nuance present in big quantities of diverse data. Unfortunately, almost all hierarchical clustering algorithms are O(N^2) and are impossible to scale. To address these concerns, I developed a prototype of an ordered, balanced, clustering algorithm called "CDF annealing."
 
 ### Measures of anomaly
 
@@ -157,16 +156,13 @@ Clustering algorithms also typically output **measures of anomaly** for each inp
 * Clustering algorithms can also produce a measure of closeness to other points in the cluster. These measures of anomaly report _how different am I from the typical pattern of activity for my cluster?_.
 * Finally, their are entropy and log-likelihood scores that report the certainty or consistency of an input point's final cluster assignment. These measures of anomaly report _how easy is it to put this unit of activity in a single cluster?_
 
-In contrast to the the first category of anomaly measures (density estimates), which are nonparametric and more model-agnostic, the second and third category of anomaly measures rely on an underlying clustering model or clustering algorithm that encorporate several significant modeling assumptions. 
+In contrast to the the first category of anomaly measures (density estimates), which are nonparametric and more model-agnostic, the second and third category of anomaly measures rely on an underlying clustering model or clustering algorithm containing several significant modeling assumptions.
 
-Because of the limitations in attempting to group numerous types of network activity into "just a few types."
+Clustering algorithms which group numerous types of network activity into too few clusters mispecify the diversity necessary to generate high fidelity outlier scores. With fewer types of behaviors to assign units of activity to, the amount of activity that will be jammed into a cluster which is not an ideal fit gets larger.  As a result, false positive rates rise, and, worse, they generate a large false positive rate by generating a high number of positives.
 
-* Too much nuance in actual network behavior.
-* leads to larger false positive rate (and larger number of positives)
+However, nefarious activity on networks often tend to appear very similar to some other type of activity (either because of technical limitations of internet protocols, limitations in the data, or because of adversaries' motivations to try and blend in). Highly accurate measures of anomaly, therefore, ought to focus on _local_ measures of anomaly. Everything else equal, therefore, measures of anomaly that are more nonparametric and model-free (like density estimates) typically are more useful to end users than measures of anomaly that are driven by cluster labels.
 
-* do not need an expensive algorithm to compute density estimates in high dimensions.
-* RPHmap at scale
-
+The challenge of nonparametric density estimation is that network units of activity, as described above, are very high dimensional. (For example, the number of ports that might be used in a single netflow session is over 62 thousand, a number that doubles if directionality is included and multiples further depending on protocol). To address the need for an inexpensive, scalable nonparametric algorithm to compute density estimates in high dimensions, I present the random projection histogram ensemble algorthm (RPHMap).
 
 ## Finding malicious activity
 
