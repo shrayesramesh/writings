@@ -107,8 +107,11 @@ Internet traffic is large and diverse. Diverse organizations contain a menagerie
 
 All of this human-driven diversity in network use sits on top of the way the internet itself is technically structured to be an open, heterogeneous ecosystem of different protocols and policies. When compared to other Big Data domains involving financial transactions or health records, the internet is an order of magnitude more complex in terms of the nuance of what generates the logs that make it into the SIEM.
 
-* therefore, exploratory analysis is still important
-* insert stuff here about end-user tools that display aggregate distributions. importance of histograms over simple statistics like mean and median
+The consequence of the heterogeneity of cyber data is the importance of the **role of human operators that understand the terrain of their network.** The analogy to policing is, while automated traffic cameras can address simple traffic violations like speeding and running a red light, there needs to be officers embedded in the neighborhood to protect against more complicated violations requiring human understanding of context.
+
+We have found that end-user tools that display aggregate distributions are highly underrated.
+
+. importance of histograms over simple statistics like mean and median
 * can find clusters without actually running clustering algorithms
 * lead into unsupervised automation
 
@@ -158,11 +161,11 @@ Clustering algorithms also typically output **measures of anomaly** for each inp
 
 In contrast to the the first category of anomaly measures (density estimates), which are nonparametric and more model-agnostic, the second and third category of anomaly measures rely on an underlying clustering model or clustering algorithm containing several significant modeling assumptions.
 
-Clustering algorithms which group numerous types of network activity into too few clusters mispecify the diversity necessary to generate high fidelity outlier scores. With fewer types of behaviors to assign units of activity to, the amount of activity that will be jammed into a cluster which is not an ideal fit gets larger.  As a result, false positive rates rise, and, worse, they generate a large false positive rate by generating a high number of positives.
+Clustering algorithms which group numerous types of network activity into too few clusters misspecify the diversity necessary to generate high fidelity outlier scores. With fewer types of behaviors to assign units of activity to, the amount of activity that will be jammed into a cluster which is not an ideal fit gets larger.  As a result, false positive rates rise, and, worse, they generate a large false positive rate by generating a high number of positives.
 
 However, nefarious activity on networks often tend to appear very similar to some other type of activity (either because of technical limitations of internet protocols, limitations in the data, or because of adversaries' motivations to try and blend in). Highly accurate measures of anomaly, therefore, ought to focus on _local_ measures of anomaly. Everything else equal, therefore, measures of anomaly that are more nonparametric and model-free (like density estimates) typically are more useful to end users than measures of anomaly that are driven by cluster labels.
 
-The challenge of nonparametric density estimation is that network units of activity, as described above, are very high dimensional. (For example, the number of ports that might be used in a single netflow session is over 62 thousand, a number that doubles if directionality is included and multiples further depending on protocol). To address the need for an inexpensive, scalable nonparametric algorithm to compute density estimates in high dimensions, I present the random projection histogram ensemble algorthm (RPHMap).
+The challenge of nonparametric density estimation is that network units of activity, as described above, are very high dimensional. (For example, the number of ports that might be used in a single netflow session is over 62 thousand, a number that doubles if directionality is included and multiples further depending on protocol). To address the need for an inexpensive, scalable nonparametric algorithm to compute density estimates in high dimensions, I present the random projection histogram ensemble algorithm (RPHMap). Luckily, a complex algorithm is not really needed to produce a high dimensional density estimate.
 
 ## Finding malicious activity
 
